@@ -1,0 +1,37 @@
+parameters:
+    
+    ccdn_component_menu.component.menu_builder.chain.class:                     CCDNComponent\MenuBundle\Component\MenuBuilder\Chain\MenuBuilderChain
+    ccdn_component_menu.component.menu_builder.builder.class:                   CCDNComponent\MenuBundle\Component\MenuBuilder\Builder\MenuBuilder
+    ccdn_component_menu.component.twig_extension.menu.class:                    CCDNComponent\MenuBundle\Component\TwigExtension\MenuExtension
+    ccdn_component_menu.component.templating.helper.menu_helper.class:          CCDNComponent\MenuBundle\Component\Templating\Helper\MenuHelper
+    ccdn_component_menu.component.renderer.twitter_bootstrap_renderer.class:    CCDNComponent\MenuBundle\Component\Renderer\TwitterBootstrap\TwitterBootstrapRenderer
+    
+services:
+    
+    #
+    # Components.
+    #
+    ccdn_component_menu.component.menu_builder.chain:
+        class: %ccdn_component_menu.component.menu_builder.chain.class%
+        arguments: [@ccdn_component_menu.component.menu_builder.builder]
+    
+    ccdn_component_menu.component.menu_builder.builder:
+        class: %ccdn_component_menu.component.menu_builder.builder.class%
+        arguments: [@router, @translator]
+       
+    ccdn_component_menu.component.renderer.twitter_bootstrap_renderer:
+        class: %ccdn_component_menu.component.renderer.twitter_bootstrap_renderer.class%
+        
+    ccdn_component_menu.component.templating.helper.menu_helper:
+        class: %ccdn_component_menu.component.templating.helper.menu_helper.class%
+        arguments: [@service_container, @ccdn_component_menu.component.renderer.twitter_bootstrap_renderer]
+
+                 
+    #
+    # Twig Extensions.
+    #
+    ccdn_component_menu.component.twig_extension.menu:
+        class: %ccdn_component_menu.component.twig_extension.menu.class%
+        arguments: [@ccdn_component_menu.component.menu_builder.chain, @ccdn_component_menu.component.templating.helper.menu_helper]
+        tags:
+            - { name: twig.extension }
