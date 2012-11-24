@@ -34,7 +34,7 @@ class BaseRenderer
 		// No Auth is stuff to be shown only to users who are not logged in.
 		if ($noAuth)
 		{
-			if ($container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+			if ($container->get('security.context')->isGranted('IS_AUTHENTICATED_REMEBERED'))
 			{
 				return false;
 			}
